@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-latest:
-    environment: release
+    
     runs-on: linux
     steps:
       - uses: actions/checkout@v4

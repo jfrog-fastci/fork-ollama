@@ -12,7 +12,7 @@ env:
 jobs:
   setup-environment:
     runs-on: ubuntu-latest
-    environment: release
+    
     outputs:
       GOFLAGS: ${{ steps.goflags.outputs.GOFLAGS }}
       VERSION: ${{ steps.goflags.outputs.VERSION }}
@@ -28,7 +28,7 @@ jobs:
 
   darwin-build:
     runs-on: macos-14-xlarge
-    environment: release
+    
     needs: setup-environment
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -118,7 +118,7 @@ jobs:
             flags: ''
             runner_dir: 'vulkan'
     runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
-    environment: release
+    
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
     steps:
@@ -223,7 +223,7 @@ jobs:
           arch: arm64
           llvmarch: aarch64
     runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
-    environment: release
+    
     needs: [setup-environment]
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -286,7 +286,7 @@ jobs:
 
   windows-app:
     runs-on: windows
-    environment: release
+    
     needs: [windows-build, windows-depends]
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -354,7 +354,7 @@ jobs:
             arch: arm64
             target: archive
     runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
-    environment: release
+    
     needs: setup-environment
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -432,7 +432,7 @@ jobs:
               GOFLAGS
               FLAVOR=rocm
     runs-on: ${{ matrix.arch == 'arm64' && format('{0}-{1}', matrix.os, matrix.arch) || matrix.os }}
-    environment: release
+    
     needs: setup-environment
     env:
       GOFLAGS: ${{ needs.setup-environment.outputs.GOFLAGS }}
@@ -468,7 +468,7 @@ jobs:
       matrix:
         suffix: ['', '-rocm']
     runs-on: linux
-    environment: release
+    
     needs: [docker-build-push]
     steps:
       - uses: docker/login-action@v3
@@ -499,7 +499,7 @@ jobs:
   # Final release process
   release:
     runs-on: ubuntu-latest
-    environment: release
+    
     needs: [darwin-build, windows-app, linux-build]
     permissions:
       contents: write
